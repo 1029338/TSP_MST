@@ -2,6 +2,7 @@ var vertices = [];
 var edges = [];
 var preOrderWalk = [];
 var preOrderTraversalPath = [];
+var isMSTDone = "false";
 var isTSPDone = "true";
 var index1=0, index2=1;
 var p4;
@@ -48,6 +49,7 @@ function buttonStartMSTPressed(){
         preOrderTraversalPath.push(preOrderWalk[i].name);
     }
     preOrderTraversalPath.push(preOrderWalk[0].name);
+    isMSTDone = "true";
     isTSPDone = "false"; 
     
 }
@@ -112,6 +114,7 @@ function mousePressed() {
 				document.getElementById('infoP').innerHTML+="<span class='padSpan'>"+distanceMatrix[i][j]+"</span>";
             }
         }
+        isMSTDone = "false";
     }
 }
 
@@ -121,9 +124,14 @@ function draw() {
     if(isTSPDone == "true"){
         buttonStartTSP.attribute("disabled", "true");
     }
+    if(isMSTDone == "true"){
+        buttonStartMST.attribute("disabled", "true");
+    }
     if(isTSPDone == "false"){
         buttonStartTSP.removeAttribute("disabled");
-        //buttonStartTSP.setAttribute("disabled", "false");
+    }
+    if(isMSTDone == "false"){
+        buttonStartMST.removeAttribute("disabled");
     }
     for(var i=0;i < edges.length; i++){
         edges[i].displayEdge();
