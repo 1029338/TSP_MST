@@ -4,7 +4,6 @@ var preOrderWalk = [];
 var preOrderTraversalPath = [];
 var isTSPDone = "true";
 var index1=0, index2=1;
-var canvas;
 var p4;
 
 function setup() {
@@ -16,33 +15,13 @@ function setup() {
     createP("");
     p4 = createElement("p","Darshan");
     createP("");
-    canvas = createCanvas(640, 360);
+    createCanvas(640, 360);
     createP("");
     buttonStartMST = createButton("Find MST");
     buttonStartTSP = createButton("Find TSP");
     buttonStartMST.mousePressed(buttonStartMSTPressed);
     buttonStartTSP.mousePressed(buttonStartTSPPressed);
-    //canvas.mouseOver(mouseOverCheck);
 }
-
-/*function mouseOverCheck(){
-    console.log("Hii");
-    for(var i=0; i< vertices.length; i++){
-        dxc = mouseX - vertices[i].x;
-        dyc = mouseY - vertices[i].y;
-        for(var j=0; j< vertices.length; j++){
-            if(i!=j){
-                dxl = vertices[j].x - vertices[i].x;
-                dyl = vertices[j].y - vertices[i].y;
-                cross = dxc * dyl - dyc * dxl;
-                if(cross == 0){
-                    console.log(true);
-                }
-            }
-        }
-        
-    }
-}*/
 
 function buttonStartMSTPressed(){
     calculateMST();
