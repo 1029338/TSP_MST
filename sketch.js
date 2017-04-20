@@ -8,15 +8,29 @@ var p4;
 var distanceMatrix = [];
 
 function setup() {
-    h1 = createElement("h1","Visualization of TSP with Dynamic programming");
-    h1.style('text-align:left');
-    var p1 = createP("Please click on the canvas to plot the cities. It will draw connected graph automatically as you can observe in canvas.");
-    var p2 = createP("Once you are done with generating Cities, you can click on Find MST button to get MST.");
-    var p3 = createP("Once Algorithm generate MST, FIND TSP button will be activated. Click on it one by one and It will walk through MST in preOrderTraversal and connect the vertices if required. Final Solution is in green color edges.");    
-    createP("");
-    p4 = createElement("p","Darshan");
-    createP("");
-    createCanvas(640, 360);
+    h1 = createElement("h1","Visualization of TSP with Minimum Spanning Tree ");
+    var p1 = createP("Please click on the canvas to plot the cities. It will draw connected graph automatically as you can observe in canvas.<br>Once you are done with generating Cities, you can click on Find MST button to get MST.<br>Once Algorithm generate MST, FIND TSP button will be activated. Click on it one by one and It will walk through MST in preOrderTraversal and connect the vertices if required. Final Solution is in green color edges."); 
+    var textdiv=createDiv("");
+	textdiv.id('textdiv');
+	p1.parent('textdiv');
+	createP("");
+	var maindiv=createDiv("");
+	maindiv.id('maindiv');
+	var canspan=createDiv("");
+	canspan.id('canspan');
+	infoSpan=createDiv("");
+	infoSpan.id('infoSpan');
+	canspan.parent('maindiv');
+	infoSpan.parent('maindiv');
+	var infoP1=createP("");
+	infoP1.id('infoP1');
+	var infoP=createP(distanceMatrix);
+	infoP.id('infoP');
+	infoP1.parent('infoSpan');
+	infoP.parent('infoSpan');
+    canvas = createCanvas(800,422.4);
+	canvas.class('canvasStyle');
+	canvas.parent('canspan');
     createP("");
     buttonStartMST = createButton("Find MST");
     buttonStartTSP = createButton("Find TSP");
@@ -74,27 +88,35 @@ function mousePressed() {
             vertices[i].children = [];
         }
         edges = [];
-        distanceMatrix = [];
+		distanceMatrix = [];
+		document.getElementById('infoP').innerHTML="<br>Distance Matrix<br><br>";
         for(var i=0;i<vertices.length;i++){
-            distanceMatrix[i] = [];
+			if(i==0){
+				for(var j=0;j<vertices.length;j++) {
+					document.getElementById('infoP').innerHTML+="<span class='padSpan'>"+(j)+"</span>";
+				}
+				document.getElementById('infoP').innerHTML+="<br>";
+			}
+			document.getElementById('infoP').innerHTML+="<br><span class='padSpan'>"+(i)+"</span>";
+			distanceMatrix[i] = [];
             for(var j=0;j<vertices.length;j++){
-                var v1 = vertices[i];
+				var v1 = vertices[i];		
                 var v2 = vertices[j];
                 if(i!=j){
                     edges.push(new edge(vertices[i],vertices[j],floor(dist(v1.x,v1.y,v2.x,v2.y))));
+					distanceMatrix[i][j] = floor(dist(v1.x,v1.y,v2.x,v2.y));		
+                }		
+                else{		
                     distanceMatrix[i][j] = floor(dist(v1.x,v1.y,v2.x,v2.y));
                 }
-                else{
-                    distanceMatrix[i][j] = floor(dist(v1.x,v1.y,v2.x,v2.y));
-                }
+				document.getElementById('infoP').innerHTML+="<span class='padSpan'>"+distanceMatrix[i][j]+"</span>";
             }
         }
     }
-    //console.log(distanceMatrix);
 }
 
 function draw() {
-    p4.html("Here is our PreOrderTraversalPath from MST : " + preOrderTraversalPath);
+    document.getElementById('infoP1').innerHTML="Here is our PreOrderTraversalPath from MST : " + preOrderTraversalPath;
     background(51);
     if(isTSPDone == "true"){
         buttonStartTSP.attribute("disabled", "true");
