@@ -5,6 +5,7 @@ var preOrderTraversalPath = [];
 var isTSPDone = "true";
 var index1=0, index2=1;
 var p4;
+var distanceMatrix = [];
 
 function setup() {
     h1 = createElement("h1","Visualization of TSP with Dynamic programming");
@@ -73,16 +74,23 @@ function mousePressed() {
             vertices[i].children = [];
         }
         edges = [];
+        distanceMatrix = [];
         for(var i=0;i<vertices.length;i++){
+            distanceMatrix[i] = [];
             for(var j=0;j<vertices.length;j++){
+                var v1 = vertices[i];
+                var v2 = vertices[j];
                 if(i!=j){
-                    var v1 = vertices[i];
-                    var v2 = vertices[j];
                     edges.push(new edge(vertices[i],vertices[j],floor(dist(v1.x,v1.y,v2.x,v2.y))));
+                    distanceMatrix[i][j] = floor(dist(v1.x,v1.y,v2.x,v2.y));
+                }
+                else{
+                    distanceMatrix[i][j] = floor(dist(v1.x,v1.y,v2.x,v2.y));
                 }
             }
         }
     }
+    //console.log(distanceMatrix);
 }
 
 function draw() {
