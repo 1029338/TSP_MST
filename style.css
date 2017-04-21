@@ -12,6 +12,16 @@
 display:inline;	
 }
 
+table{
+	color:white !important;
+	font: 400 12px 'MainFont', sans-serif;
+}
+
+#infoSpanNew{
+	color:white;
+	font: 400 18px 'MainFont', sans-serif;
+}
+
 button{
 	width: auto !important;
     background: #696969 !important;

@@ -7,6 +7,7 @@ var isTSPDone = "true";
 var index1=0, index2=1;
 var p4;
 var distanceMatrix = [];
+var center;
 
 function setup() {
     h1 = createElement("h1","Visualization of TSP with Minimum Spanning Tree ");
@@ -25,10 +26,13 @@ function setup() {
 	infoSpan.parent('maindiv');
 	var infoP1=createP("");
 	infoP1.id('infoP1');
-	var infoP=createP(distanceMatrix);
-	infoP.id('infoP');
+	var infoSpanNew=createSpan("Distance Matrix<br><br>");
+	infoSpanNew.id('infoSpanNew');
 	infoP1.parent('infoSpan');
-	infoP.parent('infoSpan');
+	infoSpanNew.parent('infoSpan');
+	var infoSpanNew1=createSpan("");
+	infoSpanNew1.id('infoSpanNew1');
+	infoSpanNew1.parent('infoSpanNew');
     canvas = createCanvas(800,422.4);
 	canvas.class('canvasStyle');
 	canvas.parent('canspan');
@@ -66,6 +70,10 @@ function buttonStartTSPPressed(){
         else{
             edges[index].show = true;
             edges[index].color = c;
+            var tempRootCity = preOrderWalk[index2].parent;
+            var tempIndex = findEdgeIndex(tempRootCity,preOrderWalk[index2]);
+            edges[tempIndex].show = true;
+            edges[tempIndex].color = color(255, 204, 0);
             index1++;
             index2++;
         }
@@ -91,15 +99,34 @@ function mousePressed() {
         }
         edges = [];
 		distanceMatrix = [];
-		document.getElementById('infoP').innerHTML="<br>Distance Matrix<br><br>";
+		var temp=document.getElementById('infoSpanNew1');
+		if(temp.hasChildNodes())
+			temp.removeChild(center);
+		center= document.createElement('center');
+		var table = document.createElement('table'), tr,trHead, th, td, row, cell;
+		center.appendChild(table);
+		temp.appendChild(center);
         for(var i=0;i<vertices.length;i++){
 			if(i==0){
-				for(var j=0;j<vertices.length;j++) {
-					document.getElementById('infoP').innerHTML+="<span class='padSpan'>"+(j)+"</span>";
-				}
-				document.getElementById('infoP').innerHTML+="<br>";
+					trHead = document.createElement('tr');
+					table.appendChild(trHead);
+					trHead.className='dynamicSpanHead';
+					for(var j = 0; j <= vertices.length; j++) {
+							th = document.createElement('th');
+							th.style='padding:10px;';
+							trHead.appendChild(th);
+							if(j==0)
+								th.innerHTML="";
+							else
+								th.innerHTML=j-1;
+					}
 			}
-			document.getElementById('infoP').innerHTML+="<br><span class='padSpan'>"+(i)+"</span>";
+			tr = document.createElement('tr');
+			table.appendChild(tr);
+			tr.className='dynamicSpan';
+			td = document.createElement('td');
+			tr.appendChild(td);
+			td.innerHTML=i;
 			distanceMatrix[i] = [];
             for(var j=0;j<vertices.length;j++){
 				var v1 = vertices[i];		
@@ -111,7 +138,9 @@ function mousePressed() {
                 else{		
                     distanceMatrix[i][j] = floor(dist(v1.x,v1.y,v2.x,v2.y));
                 }
-				document.getElementById('infoP').innerHTML+="<span class='padSpan'>"+distanceMatrix[i][j]+"</span>";
+				td = document.createElement('td');
+				tr.appendChild(td);
+				td.innerHTML=distanceMatrix[i][j];
             }
         }
         isMSTDone = "false";
